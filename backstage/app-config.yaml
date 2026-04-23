@@ -1,18 +1,18 @@
 app:
   title: Acme Corp IDP
-  baseUrl: http://localhost:3000
+  baseUrl: ${APP_BASE_URL}
 
 organization:
   name: Acme Corp
 
 backend:
-  baseUrl: http://localhost:7007
+  baseUrl: ${BACKEND_BASE_URL}
   listen:
     port: 7007
   csp:
     connect-src: ["'self'", 'http:', 'https:']
   cors:
-    origin: http://localhost:3000
+    origin: ${APP_BASE_URL}
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
   database:
@@ -24,7 +24,8 @@ backend:
       password: ${POSTGRES_PASSWORD}
   cache:
     store: redis
-    connection: redis://${REDIS_HOST}:${REDIS_PORT}
+    redis:
+      url: redis://${REDIS_HOST}:${REDIS_PORT}
 
 integrations:
   github:
@@ -52,4 +53,4 @@ catalog:
     - allow: [Component, System, API, Resource, Location, Domain, Group, User]
   locations:
     - type: file
-      target: ../../catalog/all.yaml
+      target: ./catalog/all.yaml
