@@ -38,9 +38,11 @@ import {
 } from '@backstage/plugin-techdocs';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
+import { VmManagerPage } from '@backstage/plugin-vm-manager';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ApiIcon from '@material-ui/icons/Extension';
+import ComputerIcon from '@material-ui/icons/Computer';
 import SearchIcon from '@material-ui/icons/Search';
 import { Navigate, Route } from 'react-router-dom';
 
@@ -75,6 +77,7 @@ const Root = ({ children }: { children?: React.ReactNode }) => (
           <SidebarItem icon={CatalogIcon} to="/catalog" text="Catalog" />
           <SidebarItem icon={DocsIcon} to="/docs" text="Docs" />
           <SidebarItem icon={ApiIcon} to="/api-docs" text="APIs" />
+          <SidebarItem icon={ComputerIcon} to="/vm-manager" text="VMs" />
           <SidebarItem
             icon={AddCircleOutlineIcon}
             to="/create"
@@ -121,6 +124,7 @@ export default app.createRoot(
           />
           <Route path="/create" element={<ScaffolderPage />} />
           <Route path="/search/*" element={<SearchRouter />} />
+          <Route path="/vm-manager" element={<VmManagerPage />} />
           <Route path="/api-docs" element={<ApiExplorerPage />} />
           <Route path="/catalog-import" element={<CatalogImportPage />} />
           <Route path="/catalog-graph" element={<CatalogGraphPage />} />

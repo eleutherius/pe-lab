@@ -37,3 +37,41 @@ spec:
   lifecycle: experimental
   owner: group:default/platform
   system: developer-portal
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: vm-web-01
+  description: Demo cloud VM for the developer portal
+  tags:
+    - cloud
+spec:
+  type: virtual-machine
+  owner: group:default/platform
+  system: developer-portal
+  local_info:
+    ip: 172.5.3.2
+    ssh_port: 22
+    credentials:
+      username: admin
+      password: password
+    os: Ubuntu 20.04
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: vm-db-01
+  description: Demo on-premise database VM
+  tags:
+    - on-premise
+spec:
+  type: virtual-machine
+  owner: group:default/platform
+  system: developer-portal
+  local_info:
+    ip: 10.10.5.1
+    ssh_port: 22
+    credentials:
+      username: admin
+      password: password
+    os: Ubuntu 20.04

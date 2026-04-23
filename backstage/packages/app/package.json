@@ -23,6 +23,7 @@
     "@backstage/plugin-techdocs": ">=1.0.0 <2.0.0",
     "@backstage/plugin-techdocs-module-addons-contrib": ">=1.0.0 <2.0.0",
     "@backstage/plugin-techdocs-react": ">=1.0.0 <2.0.0",
+    "@backstage/plugin-vm-manager": "workspace:*",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.9.1",
     "react": "^18.3.1",

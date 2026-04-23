@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-vm-manager
+  title: '@backstage/plugin-vm-manager'
+  description: VM Manager plugin for Backstage
+spec:
+  lifecycle: experimental
+  type: backstage-frontend-plugin
+  owner: maintainers
