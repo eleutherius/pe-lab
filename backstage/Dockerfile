@@ -16,8 +16,6 @@ COPY plugins ./plugins
 RUN corepack prepare yarn@4.8.1 --activate && \
     yarn install
 
-COPY packages/ ./packages/
-COPY plugins/ ./plugins/
 COPY catalog ./catalog
 COPY app-config.yaml ./
 RUN yarn build

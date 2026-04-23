@@ -32,6 +32,8 @@ kind: Component
 metadata:
   name: backstage
   description: Local Backstage instance
+  annotations:
+    portal.backstage.io/section: Developer Tools
 spec:
   type: website
   lifecycle: experimental
@@ -43,6 +45,8 @@ kind: Resource
 metadata:
   name: vm-web-01
   description: Demo cloud VM for the developer portal
+  annotations:
+    portal.backstage.io/section: Infrastructure
   tags:
     - cloud
 spec:
@@ -62,6 +66,8 @@ kind: Resource
 metadata:
   name: vm-db-01
   description: Demo on-premise database VM
+  annotations:
+    portal.backstage.io/section: Infrastructure
   tags:
     - on-premise
 spec:

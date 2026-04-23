@@ -2,6 +2,11 @@ import React from 'react';
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import {
+  createApiFactory,
+  discoveryApiRef,
+  fetchApiRef,
+} from '@backstage/core-plugin-api';
+import {
   AlertDisplay,
   CatalogIcon,
   DocsIcon,
@@ -29,8 +34,11 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import {
   Router as SearchRouter,
+  SearchClient,
   SidebarSearchModal,
 } from '@backstage/plugin-search';
+import { searchApiRef } from '@backstage/plugin-search-react';
+import { ServicePortalPage } from '@backstage/plugin-service-portal';
 import {
   TechDocsIndexPage,
   TechDocsReaderPage,
@@ -41,12 +49,24 @@ import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { VmManagerPage } from '@backstage/plugin-vm-manager';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import AppsIcon from '@material-ui/icons/Apps';
 import ApiIcon from '@material-ui/icons/Extension';
 import ComputerIcon from '@material-ui/icons/Computer';
 import SearchIcon from '@material-ui/icons/Search';
 import { Navigate, Route } from 'react-router-dom';
 
 const app = createApp({
+  apis: [
+    createApiFactory({
+      api: searchApiRef,
+      deps: {
+        discoveryApi: discoveryApiRef,
+        fetchApi: fetchApiRef,
+      },
+      factory: ({ discoveryApi, fetchApi }) =>
+        new SearchClient({ discoveryApi, fetchApi }),
+    }),
+  ],
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
       createComponent: scaffolderPlugin.routes.root,
@@ -77,6 +97,11 @@ const Root = ({ children }: { children?: React.ReactNode }) => (
           <SidebarItem icon={CatalogIcon} to="/catalog" text="Catalog" />
           <SidebarItem icon={DocsIcon} to="/docs" text="Docs" />
           <SidebarItem icon={ApiIcon} to="/api-docs" text="APIs" />
+          <SidebarItem
+            icon={AppsIcon}
+            to="/service-portal"
+            text="Services"
+          />
           <SidebarItem icon={ComputerIcon} to="/vm-manager" text="VMs" />
           <SidebarItem
             icon={AddCircleOutlineIcon}
@@ -124,6 +149,7 @@ export default app.createRoot(
           />
           <Route path="/create" element={<ScaffolderPage />} />
           <Route path="/search/*" element={<SearchRouter />} />
+          <Route path="/service-portal" element={<ServicePortalPage />} />
           <Route path="/vm-manager" element={<VmManagerPage />} />
           <Route path="/api-docs" element={<ApiExplorerPage />} />
           <Route path="/catalog-import" element={<CatalogImportPage />} />
