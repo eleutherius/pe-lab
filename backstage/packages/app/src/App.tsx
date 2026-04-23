@@ -1,7 +1,20 @@
 import React from 'react';
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
-import { AlertDisplay, OAuthRequestDialog } from '@backstage/core-components';
+import {
+  AlertDisplay,
+  CatalogIcon,
+  DocsIcon,
+  OAuthRequestDialog,
+  Sidebar,
+  SidebarDivider,
+  SidebarExpandButton,
+  SidebarGroup,
+  SidebarItem,
+  SidebarPage,
+  SidebarScrollWrapper,
+  SidebarSpace,
+} from '@backstage/core-components';
 import { ApiExplorerPage, apiDocsPlugin } from '@backstage/plugin-api-docs';
 import {
   CatalogEntityPage,
@@ -14,7 +27,10 @@ import {
 } from '@backstage/plugin-catalog-import';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
-import { SearchPage } from '@backstage/plugin-search';
+import {
+  Router as SearchRouter,
+  SidebarSearchModal,
+} from '@backstage/plugin-search';
 import {
   TechDocsIndexPage,
   TechDocsReaderPage,
@@ -22,6 +38,10 @@ import {
 } from '@backstage/plugin-techdocs';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import ApiIcon from '@material-ui/icons/Extension';
+import SearchIcon from '@material-ui/icons/Search';
 import { Navigate, Route } from 'react-router-dom';
 
 const app = createApp({
@@ -43,35 +63,69 @@ const app = createApp({
   },
 });
 
+const Root = ({ children }: { children?: React.ReactNode }) => (
+  <SidebarPage>
+    <Sidebar>
+      <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
+        <SidebarSearchModal />
+      </SidebarGroup>
+      <SidebarDivider />
+      <SidebarScrollWrapper>
+        <SidebarGroup label="Menu" icon={<CatalogIcon />}>
+          <SidebarItem icon={CatalogIcon} to="/catalog" text="Catalog" />
+          <SidebarItem icon={DocsIcon} to="/docs" text="Docs" />
+          <SidebarItem icon={ApiIcon} to="/api-docs" text="APIs" />
+          <SidebarItem
+            icon={AddCircleOutlineIcon}
+            to="/create"
+            text="Create"
+          />
+          <SidebarItem
+            icon={AccountTreeIcon}
+            to="/catalog-graph"
+            text="Graph"
+          />
+        </SidebarGroup>
+      </SidebarScrollWrapper>
+      <SidebarSpace />
+      <SidebarDivider />
+      <SidebarExpandButton />
+    </Sidebar>
+    {children}
+  </SidebarPage>
+);
+
 export default app.createRoot(
   <>
     <AlertDisplay />
     <OAuthRequestDialog />
     <AppRouter>
-      <FlatRoutes>
-        <Route path="/" element={<Navigate to="/catalog" replace />} />
-        <Route path="/catalog" element={<CatalogIndexPage />} />
-        <Route
-          path="/catalog/:namespace/:kind/:name"
-          element={<CatalogEntityPage />}
-        />
-        <Route path="/docs" element={<TechDocsIndexPage />} />
-        <Route
-          path="/docs/:namespace/:kind/:name/*"
-          element={
-            <TechDocsReaderPage>
-              <TechDocsAddons>
-                <ReportIssue />
-              </TechDocsAddons>
-            </TechDocsReaderPage>
-          }
-        />
-        <Route path="/create" element={<ScaffolderPage />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/api-docs" element={<ApiExplorerPage />} />
-        <Route path="/catalog-import" element={<CatalogImportPage />} />
-        <Route path="/catalog-graph" element={<CatalogGraphPage />} />
-      </FlatRoutes>
+      <Root>
+        <FlatRoutes>
+          <Route path="/" element={<Navigate to="/catalog" replace />} />
+          <Route path="/catalog" element={<CatalogIndexPage />} />
+          <Route
+            path="/catalog/:namespace/:kind/:name"
+            element={<CatalogEntityPage />}
+          />
+          <Route path="/docs" element={<TechDocsIndexPage />} />
+          <Route
+            path="/docs/:namespace/:kind/:name/*"
+            element={
+              <TechDocsReaderPage>
+                <TechDocsAddons>
+                  <ReportIssue />
+                </TechDocsAddons>
+              </TechDocsReaderPage>
+            }
+          />
+          <Route path="/create" element={<ScaffolderPage />} />
+          <Route path="/search/*" element={<SearchRouter />} />
+          <Route path="/api-docs" element={<ApiExplorerPage />} />
+          <Route path="/catalog-import" element={<CatalogImportPage />} />
+          <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+        </FlatRoutes>
+      </Root>
     </AppRouter>
   </>,
 );
