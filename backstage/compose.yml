@@ -57,3 +57,6 @@ services:
         condition: service_healthy
       opensearch:
         condition: service_healthy
+    volumes:
+      - ./app-config.yaml:/app/app-config.yaml:ro
+      - ./catalog:/app/catalog:ro

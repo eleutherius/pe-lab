@@ -1,5 +1,5 @@
 app:
-  title: Acme Corp IDP
+  title: Acme Corp1 IDP
   baseUrl: ${APP_BASE_URL}
 
 organization:
@@ -9,6 +9,8 @@ backend:
   baseUrl: ${BACKEND_BASE_URL}
   listen:
     port: 7007
+  auth:
+    dangerouslyDisableDefaultAuthPolicy: true
   csp:
     connect-src: ["'self'", 'http:', 'https:']
   cors:
