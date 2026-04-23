@@ -1,0 +1,9 @@
+node_modules/
+dist/
+dist-types/
+coverage/
+.cache/
+*.local.yaml
+*.env
+.env*
+!.env.example
