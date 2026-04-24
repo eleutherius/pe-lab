@@ -28,7 +28,18 @@ do_build() {
   echo "==> Build done"
 }
 
+do_catalog() {
+  echo "==> Syncing catalog ConfigMap from $ROOT_DIR/backstage/catalog/"
+  kubectl create namespace "$NAMESPACE" --dry-run=client -o yaml | kubectl apply -f -
+  kubectl create configmap backstage-catalog \
+    --from-file="$ROOT_DIR/backstage/catalog/" \
+    --namespace "$NAMESPACE" \
+    --dry-run=client -o yaml | kubectl apply -f -
+  echo "==> Catalog ConfigMap synced"
+}
+
 do_deploy() {
+  do_catalog
   echo "==> Deploying Helm release '$HELM_RELEASE' in namespace '$NAMESPACE'"
   helm repo add backstage https://backstage.github.io/charts 2>/dev/null || true
   helm repo update backstage

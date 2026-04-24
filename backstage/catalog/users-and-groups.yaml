@@ -1,0 +1,104 @@
+---
+# Groups
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: platform
+  description: Platform Engineering team
+spec:
+  type: team
+  profile:
+    displayName: Platform Engineering
+  parent: org
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: backend
+  description: Backend Engineering team
+spec:
+  type: team
+  profile:
+    displayName: Backend Engineering
+  parent: org
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: frontend
+  description: Frontend Engineering team
+spec:
+  type: team
+  profile:
+    displayName: Frontend Engineering
+  parent: org
+  children: []
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: org
+  description: Top-level organization
+spec:
+  type: organization
+  profile:
+    displayName: Acme Corp
+  children:
+    - platform
+    - backend
+    - frontend
+
+---
+# Users
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: guest
+spec:
+  profile:
+    displayName: Guest
+    email: guest@example.com
+  memberOf:
+    - platform
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: alice
+spec:
+  profile:
+    displayName: Alice
+    email: alice@example.com
+    picture: https://avatars.githubusercontent.com/u/1?v=4
+  memberOf:
+    - platform
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: bob
+spec:
+  profile:
+    displayName: Bob
+    email: bob@example.com
+  memberOf:
+    - backend
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: carol
+spec:
+  profile:
+    displayName: Carol
+    email: carol@example.com
+  memberOf:
+    - frontend
