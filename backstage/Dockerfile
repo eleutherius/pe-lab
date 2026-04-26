@@ -1,4 +1,4 @@
-FROM node:22.20.0-bookworm AS build
+FROM node:22.20.0-bookworm-slim AS build
 ENV YARN_NODE_LINKER=node-modules
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -21,10 +21,8 @@ COPY app-config.yaml ./
 RUN yarn build
 
 # ---- Runner stage ----
-FROM node:22.20.0-trixie AS runner
-ENV YARN_NODE_LINKER=node-modules
+FROM node:22.20.0-trixie-slim AS runner
 
-# isolate-vm requires native compilation at yarn install time
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     corepack enable && \
@@ -54,6 +52,7 @@ COPY --from=build --chown=node:node /app/packages/app/dist ./packages/app/dist
 RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid=1000 \
     corepack prepare yarn@4.8.1 --activate && \
     yarn workspaces focus backend --production
+
 
 COPY --from=build --chown=node:node /app/packages/backend/dist/bundle.tar.gz ./
 RUN tar xzf bundle.tar.gz && rm bundle.tar.gz
